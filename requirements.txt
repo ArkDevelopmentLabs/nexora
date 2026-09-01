@@ -1,0 +1,8 @@
+torch
+torchvision
+transformers
+huggingface_hub
+accelerate
+safetensors
+Pillow
+numpy

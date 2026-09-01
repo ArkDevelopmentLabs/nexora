@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nexora-ai"
+version = "0.1.0"
+description = "A lightweight Python toolkit for working with AI models and machine learning capabilities."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "ArkDevLabs" }]
+keywords = [
+    "ai",
+    "artificial-intelligence",
+    "machine-learning",
+    "deep-learning",
+    "models",
+    "computer-vision",
+    "nlp",
+    "nexora"
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+dependencies = [
+    "torch",
+    "torchvision",
+    "transformers",
+    "huggingface_hub",
+    "accelerate",
+    "safetensors",
+    "Pillow",
+    "numpy",
+]
+
+[project.urls]
+Homepage = "https://github.com/ArkDevelopmentLabs/nexora"
+Repository = "https://github.com/ArkDevelopmentLabs/nexora"
+Issues = "https://github.com/ArkDevelopmentLabs/nexora/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
