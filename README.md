@@ -2,7 +2,6 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/status-experimental-orange" alt="Status: Experimental"/>
-  <img src="https://img.shields.io/badge/base_model-Qwen3.5%200.8B-blueviolet" alt="Base Model: Qwen3.5 0.8B"/>
   <img src="https://img.shields.io/badge/task-OCR%20%2F%20Text%20Extraction-red" alt="Task: OCR / Text Extraction"/>
   <img src="https://img.shields.io/badge/version-v0.1-blue" alt="Version: v0.1"/>
 </p>
@@ -23,6 +22,8 @@ pip install nexora-ai
 
 ### Optical Character Recognition
 
+The OCR module provides a simple interface for extracting text from images.
+
 ```python
 from nexora.ocr import NexoraOCR
 
@@ -33,7 +34,108 @@ result = ocr.read("image.png")
 print(result)
 ```
 
-Nexora automatically loads the configured model and performs inference using the provided image.
+Nexora automatically loads the selected OCR model when inference is requested.
+
+## Selecting an OCR Model
+
+Nexora supports multiple OCR models through the `model` parameter.
+
+### Default Model
+
+If no model is specified, Nexora uses the 0.8B model:
+
+```python
+from nexora.ocr import NexoraOCR
+
+ocr = NexoraOCR()
+
+result = ocr.read("image.png")
+
+print(result.text)
+```
+
+### 2B Model
+
+To use the 2B model:
+
+```python
+from nexora.ocr import NexoraOCR
+
+ocr = NexoraOCR(model="nexora-ocr-v0.1-2b")
+
+result = ocr.read("image.png")
+
+print(result.text)
+```
+
+### Available Models
+
+You can retrieve the currently supported OCR models without loading a model:
+
+```python
+from nexora.ocr import NexoraOCR
+
+models = NexoraOCR.available_models()
+
+print(models)
+```
+
+Available models currently include:
+
+```text
+nexora-ocr-v0.1-0.8b
+nexora-ocr-v0.1-2b
+```
+
+The model names are resolved internally to their corresponding model repositories.
+
+## OCR
+
+The OCR module provides an interface for extracting text from images using Nexora OCR models.
+
+```python
+from nexora.ocr import NexoraOCR
+
+ocr = NexoraOCR(model="nexora-ocr-v0.1-2b")
+
+result = ocr.read("image.png")
+
+print(result.text)
+```
+
+The API is designed to keep OCR inference simple while allowing the underlying models and implementation to evolve independently.
+
+### Device Selection
+
+Nexora supports automatic device selection as well as explicit device configuration.
+
+```python
+from nexora.ocr import NexoraOCR
+
+ocr = NexoraOCR(
+    model="nexora-ocr-v0.1-2b",
+    device="auto",
+)
+
+result = ocr.read("image.png")
+
+print(result.text)
+```
+
+The default device configuration is `auto`.
+
+## Models
+
+The currently supported OCR models are:
+
+| Model                  | Hugging Face Repository             | Size |
+| ---------------------- | ----------------------------------- | ---: |
+| `nexora-ocr-v0.1-0.8b` | `ArkAiLab-Adl/nexora-ocr-v0.1-0.8b` | 0.8B |
+| `nexora-ocr-v0.1-2b`   | `ArkAiLab-Adl/nexora-ocr-v0.1-2b`   |   2B |
+
+The models are distributed separately from the Python package through the Hugging Face Hub.
+
+Nexora handles model loading and inference through its internal model interface, keeping model weights separate from the Python distribution.
 
 ## Project Structure
 
@@ -41,6 +143,7 @@ Nexora uses a modular architecture so different AI capabilities can be integrate
 
 ```text
 nexora/
+
 ├── src/
 │   └── nexora/
 │       ├── __init__.py
@@ -59,34 +162,6 @@ nexora/
 └── pyproject.toml
 ```
 
-## OCR
-
-The OCR module provides an interface for extracting text from images using Nexora OCR models.
-
-```python
-from nexora.ocr import NexoraOCR
-
-ocr = NexoraOCR()
-
-result = ocr.read("image.png")
-
-print(result.text)
-```
-
-The API is designed to keep OCR inference simple while allowing the underlying model and implementation to evolve independently.
-
-## Model
-
-The initial OCR implementation uses:
-
-```text
-ArkAiLab-Adl/nexora-ocr-v0.1-0.8b
-```
-
-The model is based on the Qwen3.5-0.8B architecture and is distributed through the Hugging Face Hub.
-
-Nexora keeps model weights separate from the Python distribution and handles model loading and inference through its internal model interface.
-
 ## Requirements
 
 Nexora currently relies on the following core libraries:
@@ -99,7 +174,7 @@ Nexora currently relies on the following core libraries:
 - Pillow
 - NumPy
 
-Python 3.10 or newer is recommended.
+Python 3.10 or newer is required.
 
 ## Development
 
@@ -107,6 +182,7 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/ArkDevelopmentLabs/nexora
+
 cd nexora
 ```
 
